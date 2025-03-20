@@ -1,0 +1,3844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Tornado - Data Science & AI Department</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Orbitron:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        
+        :root {
+            --primary-dark: #040425;
+            --secondary-dark: #0a0a3a;
+            --accent-pink: #ff00ff;
+            --accent-cyan: #00ffff;
+            --text-light: #f1f1f1;
+            --text-light-blue: #ccccff;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255, 0, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.05) 0%, transparent 50%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header Section */
+        .page-header {
+            background: linear-gradient(180deg, rgba(0, 1, 32, 0.95) 0%, rgba(10, 10, 58, 0.95) 100%);
+            padding: 15px 0;
+            border-bottom: 3px solid var(--accent-pink);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+        
+        .page-header.scrolled {
+            padding: 8px 0;
+            background: rgba(4, 4, 37, 0.95);
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-pink), var(--accent-cyan));
+            z-index: 1;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .college-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-left: 15px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+        
+        .department-name {
+            font-size: 14px;
+            background: linear-gradient(90deg, var(--accent-pink), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+            margin-top: 3px;
+        }
+        
+        /* Navigation */
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0 15px;
+        }
+        
+        .nav-links a {
+            color: var(--text-light-blue);
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 1px;
+            position: relative;
+            padding: 5px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, var(--accent-pink), var(--accent-cyan));
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #fff;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .hamburger .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            transition: all 0.3s ease;
+            background: linear-gradient(90deg, var(--accent-pink), var(--accent-cyan));
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding-top: 80px;
+            padding-bottom: 40px;
+            overflow: hidden;
+        }
+        
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        
+        .hero-image-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.5);
+        }
+        
+        .hero-image-container img {
+            width: 100%;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .hero-content {
+            text-align: center;
+            margin-top: 40px;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+        
+        .event-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            margin: 0 0 10px;
+            color: #fff;
+            text-shadow: 
+                0 0 10px rgba(255, 0, 255, 0.7),
+                0 0 20px rgba(0, 255, 255, 0.5);
+            letter-spacing: 3px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .event-title::before, .event-title::after {
+            content: '';
+            position: absolute;
+            height: 4px;
+            width: 0;
+            background: linear-gradient(90deg, var(--accent-pink), var(--accent-cyan));
+            transition: width 1s ease;
+        }
+        
+        .event-title::before {
+            left: 0;
+            top: 0;
+        }
+        
+        .event-title::after {
+            right: 0;
+            bottom: 0;
+        }
+        
+        .event-title.animate::before, .event-title.animate::after {
+            width: 100%;
+        }
+        
+        .event-tagline {
+            font-size: 1.5rem;
+            color: var(--text-light-blue);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        /* Date Display */
+        .date-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 40px 0;
+            background: linear-gradient(135deg, rgba(10, 10, 40, 0.8), rgba(40, 0, 60, 0.8));
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.8s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .date-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .date-display:hover::before {
+            left: 100%;
+            transition: left 1s ease;
+        }
+        
+        .calendar-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+            color: var(--accent-pink);
+            animation: pulse 2s infinite;
+        }
+        
+        .event-date {
+            font-size: 2.5rem;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(90deg, var(--accent-pink), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        /* About Section */
+        .about-section {
+            padding: 80px 0;
+            position: relative;
+        }
+        
+        .section-title {
+            position: relative;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--accent-pink);
+            text-align: center;
+            margin-bottom: 50px;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+            padding-bottom: 15px;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-pink), transparent);
+        }
+        
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light-blue);
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .about-text p::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-pink);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-pink);
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            position: relative;
+            transform: perspective(1000px) rotateY(5deg);
+            transition: all 0.5s ease;
+        }
+        
+        .about-image:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+        
+        .about-image img {
+            width: 100%;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+        /* Features Section */
+        .features-section {
+            padding: 80px 0;
+            position: relative;
+            background: linear-gradient(135deg, rgba(5, 5, 35, 0.8), rgba(30, 0, 50, 0.8));
+            border-radius: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .features-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 0, 255, 0.1), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.1), transparent 40%);
+            z-index: -1;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(6, 6, 50, 0.6);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .feature-card.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-pink), transparent);
+            z-index: -1;
+        }
+        
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-pink);
+        }
+        
+        .feature-card:hover::after {
+            opacity: 1;
+        }
+        
+        .feature-card:hover .feature-icon {
+            color: var(--accent-pink);
+            transform: translateY(-10px) scale(1.2);
+        }
+        
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            color: var(--accent-cyan);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+        }
+        
+        .feature-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .feature-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-pink), transparent);
+        }
+        
+        .feature-card p {
+            color: var(--text-light-blue);
+            line-height: 1.6;
+        }
+        
+        /* Contribution Section */
+        .contribution-section {
+            padding: 80px 40px;
+            margin: 60px 0;
+            text-align: center;
+            position: relative;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            overflow: hidden;
+            background: rgba(6, 6, 40, 0.6);
+        }
+        
+        .contribution-section::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 23px;
+            background: linear-gradient(45deg, var(--accent-pink), var(--accent-cyan), var(--accent-pink));
+            z-index: -1;
+            animation: neonGlow 3s linear infinite;
+            opacity: 0.7;
+        }
+        
+        .contribution-info {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+        
+        .contribution-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .contribution-card {
+            background: linear-gradient(135deg, rgba(15, 15, 50, 0.8), rgba(50, 0, 80, 0.8));
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px 30px;
+            min-width: 200px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contribution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+        
+        .contribution-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 0, 255, 0.3);
+            border-color: var(--accent-pink);
+        }
+        
+        .contribution-card:hover::before {
+            opacity: 1;
+        }
+        
+        .contribution-card:hover .amount {
+            text-shadow: 0 0 15px var(--accent-cyan);
+        }
+        
+        .amount {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            color: var(--text-light-blue);
+            font-weight: 500;
+        }
+        
+        .btn-container {
+            margin-top: 40px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--accent-pink), var(--accent-cyan));
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.4);
+            font-family: 'Orbitron', sans-serif;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 0, 255, 0.6);
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-pink));
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 20px 40px;
+            color: #a0a0a0;
+            background: linear-gradient(180deg, transparent, rgba(5, 5, 40, 0.6));
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 255, 0.5), transparent);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(10, 10, 40, 0.8), rgba(40, 0, 60, 0.8));
+            color: var(--text-light);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 0, 255, 0.2);
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
+            color: var(--accent-pink);
+            border-color: var(--accent-cyan);
+        }
+        
+        .footer-info p {
+            margin-bottom: 10px;
+        }
+        
+        .organizer {
+            font-weight: 600;
+            color: var(--text-light-blue);
+            margin-top: 15px;
+            font-style: italic;
+        }
+        
+        /* Background Elements */
+        .circuit-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.1;
+            background-image: 
+                linear-gradient(90deg, transparent 99%, var(--accent-cyan) 100%),
+                linear-gradient(0deg, transparent 99%, var(--accent-pink) 100%);
+            background-size: 40px 40px;
+        }
+        
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
+            animation: particleFade 5s infinite linear;
+            opacity: 0;
+        }
+        
+        @keyframes particleFade {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateY(-20px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-40px) scale(0);
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes neonGlow {
+            0% { filter: blur(5px); opacity: 0.6; }
+            50% { filter: blur(7px); opacity: 0.8; }
+            100% { filter: blur(5px); opacity: 0.6; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .event-title {
+                font-size: 3rem;
+            }
+            
+            .event-tagline {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .event-date {
+                font-size: 2rem;
+            }
+            
+            .about-content {
+                flex-direction: column-reverse;
+            }
+            
+            .about-image {
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                flex-direction: column;
+                background: rgba(4, 4, 37, 0.95);
+                backdrop-filter: blur(10px);
+                width: 70%;
+                height: 100vh;
+                padding-top: 100px;
+                transition: all 0.5s ease;
+                z-index: 1000;
+                box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+                border-left: 1px solid rgba(255, 0, 255, 0.3);
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 20px 0;
+                opacity: 0;
+                transform: translateX(50px);
+                transition: all 0.3s ease;
+            }
+            
+            .nav-links.active li {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            
+            .nav-links.active li:nth-child(1) { transition-delay: 0.2s; }
+            .nav-links.active li:nth-child(2) { transition-delay: 0.3s; }
+            .nav-links.active li:nth-child(3) { transition-delay: 0.4s; }
+            .nav-links.active li:nth-child(4) { transition-delay: 0.5s; }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            
+            .event-title {
+                font-size: 2.2rem;
+            }
+            
+            .event-tagline {
+                font-size: 1.1rem;
+            }
+            
+            .event-date {
+                font-size: 1.8rem;
+            }
+            
+            .contribution-card {
+                min-width: 160px;
+            }
+            
+            .amount {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .college-name {
+                font-size: 16px;
+            }
+            
+            .department-name {
+                font-size: 12px;
+            }
+            
+            .event-title {
+                font-size: 1.8rem;
+            }
+            
+            .event-tagline {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .feature-card h3 {
+                font-size: 1.3rem;
+            }
+            
+            .contribution-section {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles-container" id="particles"></div>
+    <div class="circuit-lines"></div>
+    
+    <!-- Header -->
+    <header class="page-header" id="header">
+        <div class="header-container">
+            <div class="logo-container">
+                <!-- Added logo image with inline styles -->
+                <img src="PBSCAS - DS & AI - Logo Transparent.png" alt="DSAI Logo" style="height: 60px; margin-right: 10px; vertical-align: middle;">
+                <div class="college-name">
+                    DSAI DEPARTMENT
+                    <div class="department-name">PB Siddhartha College Arts and Science</div>
+                </div>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#team">Team</a></li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            
+            
+            <div class="hero-content">
+                <h1 class="event-title">NEURAL TORNADO</h1>
+                <p class="event-tagline">Innovation Commands the Storm, Voyagers Lead the Way</p>
+            </div>
+            
+            <div class="date-display">
+                <div class="calendar-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="event-date">10th APRIL, 2025</div>
+            </div>
+        </div>
+        <div class="hero-image-container">
+            <img src="NeuralTornado.png" alt="Neural Tornado Banner" />
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">About Neural Tornado</h2>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Neural Tornado is not just an event; it's a tradition. A time to honor our senior Voyagers with a grand farewell and to inspire the next generation to embark on their journey with passion and purpose.</p>
+                    
+                    <p>Organized by ISA - InnodayVoyagers Student Association, this celebration brings together students, faculty, and industry professionals for a day of innovation and inspiration in the field of Data Science and Artificial Intelligence.</p>
+                    
+                    <p>Join us as we celebrate the achievements of our students, showcase cutting-edge projects, and create lasting memories in this grand annual event of the Department of Data Science & Artificial Intelligence.</p>
+                    
+                    <p>This year's event promises to be bigger and better with interactive workshops, industry speakers, technical competitions, and a grand farewell ceremony.</p>
+                </div>
+                
+                <div class="about-image">
+                    <img src="NeuralTornado - Title Poster.png" alt="Neural Tornado Event" />
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+  <!-- Events Section -->
+<section class="events-section" id="events">
+    <div class="container">
+        <h2 class="section-title">Event Competitions</h2>
+        
+        <!-- Technical Events -->
+        <div class="events-category">
+            <h3 class="category-title">Technical Events</h3>
+            
+            <div class="events-grid">
+                <!-- Event 1 -->
+                <div class="event-item" data-event="snake-ladders">
+                    <div class="event-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h4>Snake & Ladders</h4>
+                    <p>Technical Questions Challenge</p>
+                    <div class="event-actions">
+                        <button class="btn-know-more">Know More</button>
+                        <button class="btn-register">Register</button>
+                    </div>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="event-item" data-event="dataverse">
+                    <div class="event-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>DataVerse</h4>
+                    <p>Dashboard Challenge</p>
+                    <div class="event-actions">
+                        <button class="btn-know-more">Know More</button>
+                        <button class="btn-register">Register</button>
+                    </div>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="event-item" data-event="retail-dataquest">
+                    <div class="event-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h4>Retail DataQuest</h4>
+                    <p>Unravel Insights, Drive Decisions</p>
+                    <div class="event-actions">
+                        <button class="btn-know-more">Know More</button>
+                        <button class="btn-register">Register</button>
+                    </div>
+                </div>
+                
+                <!-- Event 4 -->
+                <div class="event-item" data-event="project-expo">
+                    <div class="event-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h4>Project Expo</h4>
+                    <p>Showcase your innovative projects</p>
+                    <div class="event-actions">
+                        <button class="btn-know-more">Know More</button>
+                        <button class="btn-register">Register</button>
+                    </div>
+                </div>
+                
+                <!-- Event 5 -->
+                <div class="event-item" data-event="hackfusion">
+                    <div class="event-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4>HackFusion</h4>
+                    <p>Innovate with Code</p>
+                    <div class="event-actions">
+                        <button class="btn-know-more">Know More</button>
+                        <button class="btn-register">Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Non-Technical Events -->
+        <div class="events-category">
+            <h3 class="category-title">Non-Technical Events</h3>
+            
+            <div class="events-grid">
+                <!-- Event 6 -->
+                <div class="event-item" data-event="photography">
+                    <div class="event-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h4>Creative Photography</h4>
+                    <p>Showcase your skills in Spot Photography</p>
+                    <div class="event-actions">
+                        <button class="btn-know-more">Know More</button>
+                        <button class="btn-register">Register</button>
+                    </div>
+                </div>
+                
+                <!-- Event 7 -->
+                <div class="event-item" data-event="treasure-hunt">
+                    <div class="event-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h4>Treasure Hunt</h4>
+                    <p>Find hidden clues and solve puzzles</p>
+                    <div class="event-actions">
+                        <button class="btn-know-more">Know More</button>
+                        <button class="btn-register">Register</button>
+                    </div>
+                </div>
+                
+                <!-- Event 8 -->
+                <div class="event-item" data-event="reel-making">
+                    <div class="event-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h4>Creative Reel Making</h4>
+                    <p>Unleash your creativity</p>
+                    <div class="event-actions">
+                        <button class="btn-know-more">Know More</button>
+                        <button class="btn-register">Register</button>
+                    </div>
+                </div>
+                
+                <!-- Event 9 -->
+                <div class="event-item" data-event="memes-war">
+                    <div class="event-icon">
+                        <i class="fas fa-laugh-squint"></i>
+                    </div>
+                    <h4>Memes War</h4>
+                    <p>Create the most viral and creative memes</p>
+                    <div class="event-actions">
+                        <button class="btn-know-more">Know More</button>
+                        <button class="btn-register">Register</button>
+                    </div>
+                </div>
+                
+                <!-- Event 10 -->
+                <div class="event-item" data-event="short-film">
+                    <div class="event-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h4>Short Film</h4>
+                    <p>Showcase your storytelling and filmmaking skills</p>
+                    <div class="event-actions">
+                        <button class="btn-know-more">Know More</button>
+                        <button class="btn-register">Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Guidelines Section -->
+        <div class="guidelines-section" id="guidelines">
+            <h3 class="section-title">Guidelines</h3>
+            
+            <div class="guidelines-card">
+                <div class="guidelines-list">
+                    <div class="guideline-item">
+                        <i class="fas fa-id-card"></i>
+                        <p>All students must carry Student Identity Cards</p>
+                    </div>
+                    
+                    <div class="guideline-item">
+                        <i class="fas fa-clock"></i>
+                        <p>Registrations/Reporting starts at 8:30 AM and closes by 10:30 AM</p>
+                    </div>
+                    
+                    <div class="guideline-item">
+                        <i class="fas fa-calendar-day"></i>
+                        <p>Inaugural starts at 9:00 AM on 10/04/2025</p>
+                    </div>
+                    
+                    <div class="guideline-item">
+                        <i class="fas fa-gavel"></i>
+                        <p>Judges and Organizers' decisions will be final</p>
+                    </div>
+                    
+                    <div class="guideline-item">
+                        <i class="fas fa-utensils"></i>
+                        <p>Lunch and participation certificates are provided</p>
+                    </div>
+                    
+                    <div class="guideline-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <p>Participants are requested to fill the Google form on or before 05/04/2025</p>
+                    </div>
+                    
+                    <div class="guideline-item">
+                        <i class="fas fa-rupee-sign"></i>
+                        <p>Registration fee for each participant is ₹150/- for any two events</p>
+                    </div>
+                    
+                    <div class="guideline-item">
+                        <i class="fas fa-user-graduate"></i>
+                        <p>All UG and PG students are eligible</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About College Section -->
+<section class="about-college-section" id="college">
+    <div class="container">
+        <div class="section-header">
+            <div class="college-logo">
+                <img src="PBSC-50_.png" alt="Siddhartha College Logo">
+            </div>
+            <h2 class="section-title">About The College</h2>
+        </div>
+        
+        <div class="about-college-content">
+            <div class="college-images-container">
+                <div class="college-image main-image">
+                    <img src="th.jpg" alt="P.B. Siddhartha College Aerial View" />
+                    <div class="image-overlay">
+                        <div class="est-year">EST. 1975</div>
+                    </div>
+                </div>
+                <div class="college-image secondary-image">
+                    <img src="th (1).jpg" alt="P.B. Siddhartha College Building" />
+                </div>
+            </div>
+            
+            <div class="college-info">
+                <p class="college-intro"><span class="highlight">Parvathaneni Brahmayya Siddhartha College of Arts & Science</span>, established in 1975 with 200 students and 15 faculty members, was the first institution started by the Academy. It gained autonomy for undergraduate courses in 1988 under UGC and Acharya Nagarjuna University.</p>
+                
+                <p>Today, the college has grown into a leading institution with <span class="highlight">2,798 students</span> and <span class="highlight">114 faculty members</span>. Recognized by the UGC for excellence in teaching, research, and extension activities, it offers diverse academic programs that foster both knowledge and character. The college emphasizes holistic education, preparing students to excel in academics, extracurricular activities, and ethical values.</p>
+                
+                <p>Over its 40+ years, it has introduced various restructured, vocational, and postgraduate courses, producing thousands of graduates in Arts, Sciences, Commerce, and Management. Committed to continuous improvement, the college pursues NAAC re-accreditation to maintain high standards.</p>
+                
+                <div class="college-motto">
+                    <i class="fas fa-quote-left"></i>
+                    <p>Enter to learn, leave to serve, and live as a Siddharthian</p>
+                    <i class="fas fa-quote-right"></i>
+                </div>
+                
+                <p>The college is a hub for skill development, career guidance, and personal growth.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Department Section -->
+<section class="about-dept-section" id="department">
+    <div class="container">
+        <div class="section-header">
+            <div class="dept-logo">
+                <img src="PBSCAS - DS & AI - Logo Transparent.png" alt="Department of Data Science and AI Logo">
+            </div>
+            <h2 class="section-title">About The Department</h2>
+        </div>
+        
+        <div class="dept-container">
+            <div class="dept-header">
+                <div class="dept-title">Department of Data Science and Artificial Intelligence</div>
+                <div class="dept-est">Established in 2023</div>
+            </div>
+            
+   
+            
+            <!-- HOD Information Section -->
+            <div class="hod-section">
+                <div class="hod-profile">
+                    <div class="hod-image-container">
+                        <div class="hod-image">
+                            <img src="hod.jpeg" alt="Dr. Udaya Sri Kompalli" />
+                        </div>
+                        <div class="hod-glow"></div>
+                    </div>
+                    
+                    <div class="hod-details">
+                        <h3 class="hod-name">Dr. Udaya Sri Kompalli</h3>
+                        <p class="hod-designation">Head of the Department</p>
+                        
+                        <div class="hod-credentials">
+                            <div class="credential-item">
+                                <div class="credential-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <p>Ph.D. in Aestrology</p>
+                            </div>
+                            
+                            <div class="credential-item">
+                                <div class="credential-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <p>15+ years of experience in academia and industry</p>
+                            </div>
+                            
+                            <div class="credential-item">
+                                <div class="credential-icon">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <p>Specialization in Machine Learning and Data Analytics</p>
+                            </div>
+                            
+                            <div class="credential-item">
+                                <div class="credential-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <p>udayasri@pbsiddhartha.ac.in</p>
+                            </div>
+                        </div>
+                        
+                        <div class="hod-message">
+                            <i class="fas fa-quote-left"></i>
+                            <p>Our department is committed to nurturing future data scientists and AI specialists equipped with cutting-edge skills and ethical understanding to solve real-world challenges.</p>
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dept-content">
+                <p>The Department of Data Science and Artificial Intelligence at PB Siddhartha College of Arts & Science offers three specialized programs—<span class="highlight">Data Science, Artificial Intelligence, and Data Analytics</span>, each with an intake of 50 students.</p>
+                
+                <p>Our programs provide a strong foundation in <span class="highlight">machine learning, deep learning, data analytics, and AI-driven problem-solving</span>, integrating mathematics, statistics, and computer science. We focus on <span class="highlight">hands-on learning, industry collaboration, and research</span>, preparing students to tackle real-world challenges in AI and data-driven decision-making.</p>
+                
+                <p>Through partnerships with industry, government, and research organizations, we offer <span class="highlight">internships, collaborative projects, and practical experience</span>, bridging the gap between theory and application. Our department is committed to <span class="highlight">innovation and excellence</span>, aspiring to be a leader in AI and data science education in the region.</p>
+            </div>
+            
+            <div class="programs-section">
+                <h3 class="programs-title">Programs Offered</h3>
+                
+                <div class="programs-grid">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="program-name">B.Sc. (Maths, Statistics, Data Science)</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="program-name">B.Sc. (Artificial Intelligence & Machine Learning)</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="program-name">B.Sc. Hons. (Artificial Intelligence)</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="program-name">B.Sc. Hons. (Data Science)</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="program-name">B.Sc. Hons. (Data Analytics)</div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="program-name">M.Sc. (Data Science)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+
+
+
+/* Common Styles for Sections */
+.about-college-section, .about-dept-section {
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #ff00ff; /* Neon pink */
+    text-shadow: 0 0 15px rgba(255, 0, 255, 0.7);
+    position: relative;
+    padding-bottom: 15px;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #00ffff, #ff00ff, transparent);
+}
+
+.highlight {
+    color: #00ffff; /* Neon cyan */
+    font-weight: 600;
+}
+
+/* College Logo and Section Header */
+.section-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.college-logo {
+    margin-bottom: 15px;
+}
+
+.college-logo img {
+    height: 150px;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.6));
+}
+
+/* College Section Specific Styles */
+.about-college-section {
+    background-color: #040425; /* Dark navy */
+    background-image: 
+        radial-gradient(circle at 20% 20%, rgba(255, 0, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.05) 0%, transparent 50%);
+}
+
+.about-college-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+.college-images-container {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.college-image {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.5s ease;
+}
+
+.main-image {
+    border: 2px solid rgba(255, 0, 255, 0.3);
+    transform: perspective(1000px) rotateY(5deg);
+}
+
+.secondary-image {
+    border: 2px solid rgba(0, 255, 255, 0.3);
+    transform: perspective(1000px) rotateY(-5deg);
+}
+
+.college-image:hover {
+    transform: perspective(1000px) rotateY(0deg);
+    box-shadow: 0 20px 40px rgba(255, 0, 255, 0.4);
+}
+
+.main-image:hover {
+    border-color: rgba(255, 0, 255, 0.6);
+}
+
+.secondary-image:hover {
+    border-color: rgba(0, 255, 255, 0.6);
+}
+
+.college-image img {
+    width: 100%;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.college-image:hover img {
+    transform: scale(1.05);
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.est-year {
+    color: #00ffff; /* Neon cyan */
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+.college-info {
+    flex: 2;
+    min-width: 300px;
+}
+
+.college-intro {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.college-info p {
+    color: #ccccff; /* Light blue text */
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.college-motto {
+    margin: 30px 0;
+    padding: 25px;
+    text-align: center;
+    position: relative;
+    background: rgba(4, 4, 37, 0.5);
+    border-radius: 10px;
+    border-left: 3px solid #ff00ff; /* Neon pink */
+    border-right: 3px solid #00ffff; /* Neon cyan */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.college-motto i {
+    color: rgba(255, 0, 255, 0.4);
+    font-size: 1.5rem;
+    position: absolute;
+}
+
+.college-motto i.fa-quote-left {
+    top: 10px;
+    left: 10px;
+}
+
+.college-motto i.fa-quote-right {
+    bottom: 10px;
+    right: 10px;
+}
+
+.college-motto p {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 0, 255, 0.5);
+    margin: 0;
+}
+
+/* Department Section Specific Styles */
+.about-dept-section {
+    background: linear-gradient(135deg, rgba(5, 5, 30, 0.8), rgba(30, 0, 50, 0.8));
+    position: relative;
+    overflow: hidden;
+}
+
+.about-dept-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 0, 255, 0.05), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.05), transparent 50%);
+    z-index: 0;
+}
+
+.dept-container {
+    background: rgba(4, 4, 37, 0.5);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.dept-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #00ffff, #ff00ff, transparent);
+}
+
+.dept-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 0, 255, 0.2);
+    position: relative;
+}
+
+.dept-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 30%;
+    width: 40%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ff00ff, transparent);
+}
+
+.dept-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+.dept-est {
+    color: #00ffff; /* Neon cyan */
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+/* HOD Section Styles */
+.hod-section {
+    margin: 0 0 50px;
+    padding: 0;
+    position: relative;
+}
+
+.hod-profile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+    background: rgba(8, 8, 45, 0.4);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.hod-profile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 10% 10%, rgba(255, 0, 255, 0.05), transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(0, 255, 255, 0.05), transparent 40%);
+    z-index: -1;
+}
+
+.hod-image-container {
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+    position: relative;
+}
+
+.hod-image {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 0, 255, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.hod-glow {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 15px;
+    background: transparent;
+    box-shadow: 0 0 25px rgba(255, 0, 255, 0.7);
+    z-index: 0;
+    animation: glowPulse 3s infinite alternate;
+}
+
+@keyframes glowPulse {
+    0% { opacity: 0.5; box-shadow: 0 0 25px rgba(255, 0, 255, 0.5); }
+    100% { opacity: 0.8; box-shadow: 0 0 35px rgba(0, 255, 255, 0.7); }
+}
+
+.hod-image img {
+    width: 100%;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.hod-image:hover img {
+    transform: scale(1.05);
+}
+
+.hod-details {
+    flex: 2;
+    min-width: 300px;
+}
+
+.hod-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: #00ffff; /* Neon cyan */
+    margin-bottom: 5px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.hod-designation {
+    font-size: 1.2rem;
+    color: #ff00ff; /* Neon pink */
+    margin-bottom: 25px;
+    font-weight: 500;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.hod-designation::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, #ff00ff, transparent);
+}
+
+.hod-credentials {
+    margin-bottom: 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+.credential-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.credential-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.credential-icon i {
+    color: #00ffff; /* Neon cyan */
+    font-size: 1.1rem;
+}
+
+.credential-item p {
+    color: #f1f1f1;
+    margin: 0;
+}
+
+.hod-message {
+    background: rgba(10, 10, 50, 0.4);
+    border-left: 3px solid #ff00ff; /* Neon pink */
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.hod-message i {
+    color: rgba(255, 0, 255, 0.3);
+    font-size: 1.2rem;
+    position: absolute;
+}
+
+.hod-message i.fa-quote-left {
+    top: 10px;
+    left: 10px;
+}
+
+.hod-message i.fa-quote-right {
+    bottom: 10px;
+    right: 10px;
+}
+
+.hod-message p {
+    color: #ccccff; /* Light blue text */
+    font-style: italic;
+    margin: 0;
+    line-height: 1.6;
+    padding: 0 20px;
+}
+
+.dept-content {
+    margin-bottom: 50px;
+}
+
+.dept-content p {
+    color: #ccccff; /* Light blue text */
+    margin-bottom: 20px;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+/* Programs Section */
+.programs-section {
+    padding: 20px 0;
+}
+
+.programs-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: #ff00ff; /* Neon pink */
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.programs-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ffff, transparent);
+}
+
+.programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.program-card {
+    background: rgba(6, 6, 50, 0.4);
+    border: 1px solid rgba(0, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px 20px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.program-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 0, 255, 0.05) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+.program-card:hover {
+    transform: translateY(-10px);
+    border-color: #ff00ff; /* Neon pink */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.program-card:hover::before {
+    opacity: 1;
+}
+
+.program-card:hover .program-icon {
+    color: #ff00ff; /* Neon pink */
+    transform: translateY(-5px) scale(1.1);
+}
+
+.program-icon {
+    font-size: 2.5rem;
+    color: #00ffff; /* Neon cyan */
+    margin-bottom: 20px;
+    transition: all 0.4s ease;
+    display: inline-block;
+}
+
+.program-name {
+    color: #f1f1f1;
+    font-weight: 500;
+    line-height: 1.5;
+    font-size: 1.1rem;
+}
+
+/* Animation for sections */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.about-college-content, 
+.college-images-container, 
+.dept-container, 
+.hod-profile, 
+.programs-grid {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.college-images-container {
+    animation-delay: 0.2s;
+}
+
+.hod-profile {
+    animation-delay: 0.3s;
+}
+
+.programs-grid {
+    animation-delay: 0.4s;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .about-college-content, .hod-profile {
+        flex-direction: column;
+    }
+    
+    .college-images-container, .hod-image-container {
+        margin: 0 auto 30px;
+        max-width: 500px;
+        width: 100%;
+    }
+    
+    .dept-title {
+        font-size: 1.8rem;
+    }
+    
+    .hod-name {
+        font-size: 1.6rem;
+    }
+    
+    .programs-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .college-motto p {
+        font-size: 1.1rem;
+    }
+    
+    .dept-title {
+        font-size: 1.6rem;
+    }
+    
+    .programs-title {
+        font-size: 1.5rem;
+    }
+    
+    .hod-credentials {
+        grid-template-columns: 1fr;
+    }
+    
+    .dept-container {
+        padding: 30px 20px;
+    }
+    
+    .hod-profile {
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .college-images-container, .hod-image-container {
+        min-width: 100%;
+    }
+    
+    .programs-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dept-container {
+        padding: 25px 15px;
+    }
+    
+    .program-card {
+        padding: 20px 15px;
+    }
+    
+    .hod-name {
+        font-size: 1.4rem;
+    }
+    
+    .college-logo img {
+        height: 60px;
+    }
+}
+</style>
+
+<style>
+    /* Add these styles to your existing CSS */
+    
+    /* Department Logo Styles */
+    .dept-logo {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    
+    .dept-logo img {
+        height: 150px;
+        filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.6));
+        transition: transform 0.3s ease;
+    }
+    
+    .dept-logo img:hover {
+        transform: scale(1.05);
+    }
+    
+    /* Section Header Styles (if not already defined) */
+    .section-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+        .dept-logo img {
+            height: 60px;
+        }
+    }
+    </style>
+<script>
+// Animation for elements on scroll
+document.addEventListener('DOMContentLoaded', function() {
+    const animateOnScroll = () => {
+        const elementsToAnimate = [
+            document.querySelector('.about-college-content'),
+            document.querySelector('.college-images-container'),
+            document.querySelector('.dept-container'),
+            document.querySelector('.hod-profile'),
+            document.querySelector('.programs-grid')
+        ];
+        
+        elementsToAnimate.forEach(element => {
+            if (!element) return;
+            
+            const elementTop = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (elementTop < windowHeight - 100) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }
+        });
+        
+        // Animate program cards with staggered delay
+        const programCards = document.querySelectorAll('.program-card');
+        programCards.forEach((card, index) => {
+            const cardTop = card.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (cardTop < windowHeight - 50) {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'all 0.5s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 100);
+            }
+        });
+    };
+
+    // Initialize animation on load and scroll
+    window.addEventListener('load', animateOnScroll);
+    window.addEventListener('scroll', animateOnScroll);
+});
+</script>
+
+<script>
+// Animation for elements on scroll
+const animateOnScroll = () => {
+    const elements = [
+        document.querySelector('.about-college-content'),
+        document.querySelector('.about-dept-container')
+    ];
+    
+    elements.forEach(element => {
+        if (!element) return;
+        
+        const elementTop = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (elementTop < windowHeight - 100) {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }
+    });
+    
+    // Animate program cards with staggered delay
+    const programCards = document.querySelectorAll('.program-card');
+    programCards.forEach((card, index) => {
+        const cardTop = card.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (cardTop < windowHeight - 50) {
+            setTimeout(() => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.5s ease';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 50);
+            }, index * 100);
+        }
+    });
+};
+
+// Initialize animation on load and scroll
+window.addEventListener('load', animateOnScroll);
+window.addEventListener('scroll', animateOnScroll);
+</script>
+<!-- Modal Overlay -->
+<div class="modal-overlay" id="modalOverlay"></div>
+
+<!-- Event Detail Modals -->
+<div class="event-modals">
+    <!-- Snake & Ladders Modal -->
+    <div class="event-modal" id="snake-ladders-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon"><i class="fas fa-gamepad"></i></div>
+                <h3>Snake & Ladders</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="event-description">
+                    <h4>Technical Questions Challenge</h4>
+                    <p>Test your technical knowledge in this innovative Snake & Ladders format. Answer questions correctly to climb the ladder, but beware of pitfalls!</p>
+                    
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <i class="fas fa-users"></i>
+                            <span>Team Size: Maximum 2 members per team</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Duration: 60 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-trophy"></i>
+                            <span>Prizes: Exciting cash prizes for winners</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-rules">
+                        <h5>Rules:</h5>
+                        <ul>
+                            <li>Questions will be from AI, Data Science, and Computer Science domains</li>
+                            <li>Teams must answer within the time limit</li>
+                            <li>Use of mobile phones or internet is not allowed</li>
+                            <li>Decision of judges will be final</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://rzp.io/your-razorpay-link-snake-ladders" class="modal-register-btn">Register Now | ₹150</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- DataVerse Modal -->
+    <div class="event-modal" id="dataverse-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>DataVerse</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="event-description">
+                    <h4>Dashboard Challenge</h4>
+                    <p>Analyze and create impactful dashboards on business themes. Showcase your data visualization skills and business insights.</p>
+                    
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <i class="fas fa-users"></i>
+                            <span>Team Size: Maximum 2 members per team</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Duration: 120 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-laptop-code"></i>
+                            <span>Tools Allowed: Power BI, Tableau, Python (Matplotlib, Seaborn, Plotly), Excel</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-database"></i>
+                            <span>Dataset: Provided on-site</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-rules">
+                        <h5>Judging Criteria:</h5>
+                        <ul>
+                            <li>Insight Generation (40%)</li>
+                            <li>Dashboard Design (30%)</li>
+                            <li>Visualization Techniques (20%)</li>
+                            <li>Presentation (10%)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://rzp.io/your-razorpay-link-dataverse" class="modal-register-btn">Register Now | ₹150</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Retail DataQuest Modal -->
+    <div class="event-modal" id="retail-dataquest-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon"><i class="fas fa-store"></i></div>
+                <h3>Retail DataQuest</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="event-description">
+                    <h4>Unravel Insights, Drive Decisions</h4>
+                    <p>Analyze retail datasets to extract meaningful insights and propose data-driven solutions for business challenges.</p>
+                    
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <i class="fas fa-users"></i>
+                            <span>Team Size: Maximum 2 members per team</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-tasks"></i>
+                            <span>Format: Problem statement based on retail analytics</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Time: 90 minutes for analysis + 5 minutes for presentation</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-rules">
+                        <h5>Event Flow:</h5>
+                        <ul>
+                            <li>Teams will receive retail datasets and business questions</li>
+                            <li>Analyze the data and create solution strategies</li>
+                            <li>Prepare concise presentations of findings</li>
+                            <li>Present insights to a panel of judges</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://rzp.io/your-razorpay-link-retail-dataquest" class="modal-register-btn">Register Now | ₹150</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Project Expo Modal -->
+    <div class="event-modal" id="project-expo-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon"><i class="fas fa-project-diagram"></i></div>
+                <h3>Project Expo</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="event-description">
+                    <h4>Showcase your innovative projects</h4>
+                    <p>Present your tech-based projects and solutions to industry experts, faculty, and peers. Get valuable feedback and recognition for your innovations.</p>
+                    
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <i class="fas fa-users"></i>
+                            <span>Team Size: Maximum 2 members per team</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-hashtag"></i>
+                            <span>Categories: AI/ML, Web/Mobile Apps, IoT, Data Analytics</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-stopwatch"></i>
+                            <span>Presentation: 10 minutes + 5 minutes Q&A</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-rules">
+                        <h5>Submission Requirements:</h5>
+                        <ul>
+                            <li>Working prototype or demo</li>
+                            <li>Brief project report (max 2 pages)</li>
+                            <li>Presentation slides (max 10 slides)</li>
+                            <li>Projects must be original work</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://rzp.io/your-razorpay-link-project-expo" class="modal-register-btn">Register Now | ₹150</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- HackFusion Modal -->
+    <div class="event-modal" id="hackfusion-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon"><i class="fas fa-code"></i></div>
+                <h3>HackFusion</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="event-description">
+                    <h4>Innovate with Code</h4>
+                    <p>Put your coding skills to the test in this intense programming competition. Solve algorithmic challenges and develop solutions under time pressure.</p>
+                    
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <i class="fas fa-users"></i>
+                            <span>Participation: Individual or team of 2</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-code"></i>
+                            <span>Languages: Python, Java, C++, JavaScript</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Duration: 3 hours</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-rules">
+                        <h5>Competition Format:</h5>
+                        <ul>
+                            <li>Multiple coding problems of varying difficulty</li>
+                            <li>Leaderboard ranking based on problems solved and time taken</li>
+                            <li>Bonus points for optimal solutions</li>
+                            <li>Internet access will be restricted during the competition</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://rzp.io/your-razorpay-link-hackfusion" class="modal-register-btn">Register Now | ₹150</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Photography Modal -->
+    <div class="event-modal" id="photography-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon"><i class="fas fa-camera"></i></div>
+                <h3>Creative Photography</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="event-description">
+                    <h4>Showcase your skills in Spot Photography</h4>
+                    <p>Capture the best moments around the campus with creative perspectives. Show your unique vision and photography skills.</p>
+                    
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <i class="fas fa-user"></i>
+                            <span>Participation: Individual</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-camera-retro"></i>
+                            <span>Equipment: DSLR, mirrorless, or smartphone</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Duration: 2 hours to capture, 30 minutes to submit</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-rules">
+                        <h5>Rules:</h5>
+                        <ul>
+                            <li>Theme will be announced on the spot</li>
+                            <li>Minor editing allowed (brightness, contrast, crop)</li>
+                            <li>Submit up to 3 of your best shots</li>
+                            <li>Photos must be taken within the campus and during the event time</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://rzp.io/your-razorpay-link-photography" class="modal-register-btn">Register Now | ₹150</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Treasure Hunt Modal -->
+    <div class="event-modal" id="treasure-hunt-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon"><i class="fas fa-map-marked-alt"></i></div>
+                <h3>Treasure Hunt</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="event-description">
+                    <h4>Find hidden clues and solve puzzles</h4>
+                    <p>Embark on an exciting adventure around the campus. Solve riddles, find hidden clues, and race against other teams to discover the treasure.</p>
+                    
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <i class="fas fa-users"></i>
+                            <span>Team Size: 3-4 members</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Duration: 90 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-map"></i>
+                            <span>Location: Throughout the college campus</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-rules">
+                        <h5>Game Rules:</h5>
+                        <ul>
+                            <li>Each team will receive a starting clue</li>
+                            <li>Solve each clue to find the location of the next one</li>
+                            <li>Teams must stay together throughout the hunt</li>
+                            <li>The team that finds all clues and reaches the final destination first wins</li>
+                            <li>Interference with other teams will result in disqualification</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://rzp.io/your-razorpay-link-treasure-hunt" class="modal-register-btn">Register Now | ₹150</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Creative Reel Making Modal -->
+    <div class="event-modal" id="reel-making-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon"><i class="fas fa-video"></i></div>
+                <h3>Creative Reel Making</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="event-description">
+                    <h4>Unleash your creativity and make your reel stand out!</h4>
+                    <p>Create engaging, short-form video content that captivates the audience and showcases your creativity and storytelling skills.</p>
+                    
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <i class="fas fa-users"></i>
+                            <span>Team Size: Up to 3 members</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-film"></i>
+                            <span>Duration: 15-60 seconds</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-hashtag"></i>
+                            <span>Choose one theme for your reel</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-rules">
+                        <h5>Guidelines:</h5>
+                        <ul>
+                            <li>Each team can choose only one theme for their reel</li>
+                            <li>Content must be original and created specifically for the event</li>
+                            <li>Submit your reel by the deadline</li>
+                            <li>Inappropriate content will lead to disqualification</li>
+                            <li>Judging will be based on creativity, engagement, technical quality, and adherence to theme</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://rzp.io/your-razorpay-link-reel-making" class="modal-register-btn">Register Now | ₹150</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Memes War Modal -->
+    <div class="event-modal" id="memes-war-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon"><i class="fas fa-laugh-squint"></i></div>
+                <h3>Memes War</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="event-description">
+                    <h4>Create the most viral and creative memes</h4>
+                    <p>Showcase your humor and creativity by creating original memes that are funny, relatable, and shareable.</p>
+                    
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <i class="fas fa-user"></i>
+                            <span>Participation: Individual</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-image"></i>
+                            <span>Submissions: 3 memes per participant</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-hashtag"></i>
+                            <span>Themes: College life, Technology, Social media, Current trends</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-rules">
+                        <h5>Rules:</h5>
+                        <ul>
+                            <li>Memes must be original creations</li>
+                            <li>Content should be appropriate for all audiences</li>
+                            <li>No offensive, discriminatory, or harmful content</li>
+                            <li>Judging based on humor, creativity, relevance, and originality</li>
+                            <li>Submit memes in JPEG/PNG format</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://rzp.io/your-razorpay-link-memes-war" class="modal-register-btn">Register Now | ₹150</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Short Film Modal -->
+    <div class="event-modal" id="short-film-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon"><i class="fas fa-film"></i></div>
+                <h3>Short Film</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="event-description">
+                    <h4>Showcase your storytelling and filmmaking skills</h4>
+                    <p>Create a compelling short film that engages, entertains, and delivers a meaningful message to the audience.</p>
+                    
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <i class="fas fa-users"></i>
+                            <span>Team Size: Up to 5 members</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Duration: 3-7 minutes</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-language"></i>
+                            <span>Language: Any (subtitles required if not in English/Telugu)</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="event-rules">
+                        <h5>Submission Guidelines:</h5>
+                        <ul>
+                            <li>Films must be original and created for this competition</li>
+                            <li>Theme will be announced 7 days before the submission deadline</li>
+                            <li>Submit in MP4/MOV format</li>
+                            <li>Include title, team name, and college in opening credits</li>
+                            <li>Content should be appropriate for general viewing</li>
+                            <li>Judging based on storytelling, cinematography, editing, sound, and theme relevance</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="https://rzp.io/your-razorpay-link-short-film" class="modal-register-btn">Register Now | ₹150</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Events Section Styling */
+.events-section {
+    padding: 80px 0;
+    position: relative;
+}
+
+.events-category {
+    margin-bottom: 60px;
+}
+
+.category-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: var(--accent-cyan);
+    text-align: center;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.category-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-pink), transparent);
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.event-item {
+    background: rgba(6, 6, 50, 0.6);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 25px 20px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.event-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 0, 255, 0.1) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+.event-item:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    border-color: var(--accent-pink);
+}
+
+.event-item:hover::before {
+    opacity: 1;
+}
+
+.event-item:hover .event-icon {
+    color: var(--accent-pink);
+    transform: translateY(-8px) scale(1.1);
+}
+
+.event-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--accent-cyan);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-block;
+}
+
+.event-item h4 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: #ffffff;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+}
+
+.event-item h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-pink), transparent);
+}
+
+.event-item p {
+    color: var(--text-light);
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.event-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-know-more, .btn-register {
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.btn-know-more {
+    background: rgba(0, 255, 255, 0.2);
+    color: var(--accent-cyan);
+    border: 1px solid var(--accent-cyan);
+}
+
+.btn-know-more:hover {
+    background: rgba(0, 255, 255, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+}
+
+.btn-register {
+    background: linear-gradient(45deg, var(--accent-pink), var(--accent-cyan));
+    color: white;
+    box-shadow: 0 3px 10px rgba(255, 0, 255, 0.3);
+}
+
+.btn-register:hover {
+    background: linear-gradient(45deg, var(--accent-cyan), var(--accent-pink));
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 0, 255, 0.5);
+}
+
+/* Guidelines Section */
+.guidelines-section {
+    margin-top: 40px;
+    padding: 20px 0;
+}
+
+.guidelines-card {
+    background: linear-gradient(135deg, rgba(10, 10, 40, 0.8), rgba(40, 0, 60, 0.8));
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 0, 255, 0.3);
+    margin-top: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.guidelines-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 0, 255, 0.05), transparent 70%);
+    z-index: -1;
+}
+
+.guidelines-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.guideline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.guideline-item:hover {
+    background: rgba(255, 0, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.guideline-item i {
+    color: var(--accent-cyan);
+    font-size: 1.2rem;
+    margin-top: 3px;
+}
+
+.guideline-item p {
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+.event-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    z-index: 1001;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: linear-gradient(135deg, rgba(6, 6, 40, 0.95), rgba(30, 0, 50, 0.95));
+    border-radius: 15px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 0, 255, 0.3);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.event-modal.active {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-content {
+    position: relative;
+}
+
+.modal-header {
+    padding: 20px 25px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 0, 255, 0.3);
+    position: relative;
+}
+
+.modal-header::before {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-pink), transparent);
+}
+
+.modal-icon {
+    font-size: 2rem;
+    color: var(--accent-pink);
+    margin-right: 15px;
+    background: rgba(255, 0, 255, 0.1);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 0, 255, 0.3);
+    animation: pulse 2s infinite;
+}
+
+.modal-header h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: white;
+    flex-grow: 1;
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    color: var(--text-light-blue);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    color: var(--accent-pink);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 25px;
+}
+
+.event-description h4 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    color: var(--accent-cyan);
+    margin-bottom: 15px;
+}
+
+.event-description p {
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.event-details {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.detail-item i {
+    color: var(--accent-cyan);
+    font-size: 1.1rem;
+    margin-right: 15px;
+    width: 20px;
+}
+
+.detail-item span {
+    color: var(--text-light-blue);
+}
+
+.event-rules {
+    margin-top: 20px;
+}
+
+.event-rules h5 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    color: var(--accent-pink);
+    margin-bottom: 10px;
+}
+
+.event-rules ul {
+    list-style-type: none;
+    padding-left: 5px;
+}
+
+.event-rules li {
+    color: var(--text-light);
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.event-rules li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-pink);
+    border-radius: 50%;
+}
+
+.modal-footer {
+    padding: 20px 25px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 0, 255, 0.2);
+    border-radius: 0 0 15px 15px;
+}
+
+.modal-register-btn {
+    display: inline-block;
+    background: linear-gradient(45deg, var(--accent-pink), var(--accent-cyan));
+    color: white;
+    padding: 12px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(255, 0, 255, 0.3);
+    font-family: 'Orbitron', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-register-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.7s ease;
+}
+
+.modal-register-btn:hover {
+    background: linear-gradient(45deg, var(--accent-cyan), var(--accent-pink));
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(255, 0, 255, 0.5);
+}
+
+.modal-register-btn:hover::before {
+    left: 100%;
+}
+
+/* Animation for modal elements */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 0, 255, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 0, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 0, 255, 0); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .events-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+    
+    .guidelines-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .event-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-know-more, .btn-register {
+        width: 100%;
+    }
+    
+    .modal-header h3 {
+        font-size: 1.5rem;
+    }
+    
+    .modal-icon {
+        font-size: 1.5rem;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .event-item {
+        padding: 20px 15px;
+    }
+    
+    .event-icon {
+        font-size: 2rem;
+    }
+    
+    .event-item h4 {
+        font-size: 1.1rem;
+    }
+    
+    .modal-header {
+        padding: 15px;
+    }
+    
+    .modal-body {
+        padding: 15px;
+    }
+    
+    .event-description h4 {
+        font-size: 1.1rem;
+    }
+    
+    .modal-register-btn {
+        padding: 10px 30px;
+        font-size: 1rem;
+    }
+}
+</style>
+
+<script>
+// Get all event items and modal elements
+const eventItems = document.querySelectorAll('.event-item');
+const modalOverlay = document.getElementById('modalOverlay');
+const eventModals = document.querySelectorAll('.event-modal');
+const closeButtons = document.querySelectorAll('.close-modal');
+
+// Open modal function
+const openModal = (modalId) => {
+    // Hide all modals first
+    eventModals.forEach(modal => {
+        modal.classList.remove('active');
+    });
+    
+    // Show overlay
+    modalOverlay.classList.add('active');
+    
+    // Show specific modal
+    const modal = document.getElementById(`${modalId}-modal`);
+    if (modal) {
+        modal.classList.add('active');
+        
+        // Add animation to modal elements
+        const elements = modal.querySelectorAll('.event-description > *');
+        elements.forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.animation = `fadeIn 0.5s forwards ${index * 0.1}s`;
+        });
+        
+        // Prevent body scrolling
+        document.body.style.overflow = 'hidden';
+    }
+};
+
+// Close modal function
+const closeModal = () => {
+    modalOverlay.classList.remove('active');
+    
+    eventModals.forEach(modal => {
+        modal.classList.remove('active');
+    });
+    
+    // Re-enable body scrolling
+    document.body.style.overflow = 'auto';
+};
+
+// Event listeners for Know More buttons
+eventItems.forEach(item => {
+    const knowMoreBtn = item.querySelector('.btn-know-more');
+    const eventId = item.getAttribute('data-event');
+    
+    knowMoreBtn.addEventListener('click', () => {
+        openModal(eventId);
+    });
+    
+    // Event listeners for Register buttons in cards
+    // These can redirect directly to Razorpay
+    const registerBtn = item.querySelector('.btn-register');
+    registerBtn.addEventListener('click', () => {
+        // Add the appropriate Razorpay link for each event
+        const razorpayLinks = {
+            'snake-ladders': 'https://rzp.io/rzp/Sk8PZUVn',
+            'dataverse': 'https://rzp.io/rzp/r9SRvv1u',
+            'retail-dataquest': 'https://rzp.io/rzp/fsdopY3',
+            'project-expo': 'https://rzp.io/rzp/YmmBUdzO',
+            'hackfusion': 'https://rzp.io/rzp/cS9kn47',
+            'photography': 'https://rzp.io/rzp/7aEKsLT',
+            'treasure-hunt': 'https://rzp.io/your-razorpay-link-treasure-hunt',
+            'reel-making': 'https://rzp.io/rzp/DkZGc9C',
+            'memes-war': 'https://rzp.io/rzp/28v94ab',
+            'short-film': 'https://rzp.io/rzp/Eda2r8l'
+        };
+        
+        window.location.href = razorpayLinks[eventId];
+    });
+});
+
+// Event listeners for close buttons
+closeButtons.forEach(button => {
+    button.addEventListener('click', closeModal);
+});
+
+// Close modal when clicking on overlay
+modalOverlay.addEventListener('click', closeModal);
+
+// Close modal on ESC key press
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeModal();
+    }
+});
+
+// Prevent modal close when clicking inside the modal
+eventModals.forEach(modal => {
+    modal.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+});
+
+// Add animation for event items
+const animateEventItems = () => {
+    eventItems.forEach((item, index) => {
+        const itemTop = item.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (itemTop < windowHeight - 50) {
+            setTimeout(() => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(30px)';
+                item.style.transition = 'all 0.5s ease';
+                
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, 50);
+            }, index * 100);
+        }
+    });
+};
+
+// Initialize animation on load and scroll
+window.addEventListener('load', animateEventItems);
+window.addEventListener('scroll', animateEventItems);
+</script>
+
+
+
+<!-- Organizing Team Section -->
+<section class="team-section" id="team">
+    <div class="container">
+        <h2 class="section-title">Organizing Team</h2>
+        
+        <!-- Chief Patrons -->
+        <div class="team-category">
+            <h3 class="team-category-title">Chief Patrons</h3>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-name">Sri Malineni Rajaiah</div>
+                    <div class="member-role">President</div>
+                    <div class="member-org">Siddhartha Academy of General and Technical Education</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">Sri P. Lakshmana Rao</div>
+                    <div class="member-role">Secretary</div>
+                    <div class="member-org">Siddhartha Academy of General and Technical Education</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">Sri S. Venkateswara Rao</div>
+                    <div class="member-role">Treasurer</div>
+                    <div class="member-org">Siddhartha Academy of General and Technical Education</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Patrons -->
+        <div class="team-category">
+            <h3 class="team-category-title">Patrons</h3>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-name">Dr. Ramesh Meka</div>
+                    <div class="member-role">Principal</div>
+                    <div class="member-org">P.B Siddhartha College of Arts & Science</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">Sri. V. Babu Rao</div>
+                    <div class="member-role">Director</div>
+                    <div class="member-org">P.B Siddhartha College of Arts & Science</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">Dr. Rajesh C. Jampala</div>
+                    <div class="member-role">Dean-Academics & Administration</div>
+                    <div class="member-org">P.B Siddhartha College of Arts & Science</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Convenor -->
+        <div class="team-category">
+            <h3 class="team-category-title">Convenor</h3>
+            
+            <div class="team-grid single-column">
+                <div class="team-member highlight">
+                    <div class="member-name">Dr. Udaya Sri Kompalli</div>
+                    <div class="member-role">Head of the Department</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Organizing Committee -->
+        <div class="team-category">
+            <h3 class="team-category-title">Organizing Committee</h3>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-name">V V Ramana</div>
+                    <div class="member-role">Systems Analyst</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">V Samhita Reddy</div>
+                    <div class="member-role">Assistant Professor</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">K Gayathri</div>
+                    <div class="member-role">Assistant Professor</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">Ch Sowmya</div>
+                    <div class="member-role">Assistant Professor</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">J Revathi</div>
+                    <div class="member-role">Assistant Professor</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">K B Kavya Sree</div>
+                    <div class="member-role">Assistant Professor</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">I Swetha</div>
+                    <div class="member-role">Assistant Professor</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">Ch. Yoga Sai Rajya Lakshmi</div>
+                    <div class="member-role">Assistant Professor</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-name">M. Raghu Vamsi</div>
+                    <div class="member-role">Jr. Programmer</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Student Co-ordinators -->
+        <div class="team-category">
+            <h3 class="team-category-title">Student Co-ordinators</h3>
+            
+            <div class="team-grid">
+                <div class="team-member contact">
+                    <div class="member-name">S Chitra Nandini</div>
+                    <div class="member-role">B.Sc. (AIML)</div>
+                    <div class="member-contact">
+                        <i class="fas fa-phone"></i> 7396298711
+                    </div>
+                </div>
+                
+                <div class="team-member contact">
+                    <div class="member-name">M M S Gayatri</div>
+                    <div class="member-role">B.Sc. (AIML)</div>
+                    <div class="member-contact">
+                        <i class="fas fa-phone"></i> 8074243791
+                    </div>
+                </div>
+                
+                <div class="team-member contact">
+                    <div class="member-name">P. Surendra Chowdary</div>
+                    <div class="member-role">B.Sc. (MSDS)</div>
+                    <div class="member-contact">
+                        <i class="fas fa-phone"></i> 6302873211
+                    </div>
+                </div>
+                
+                <div class="team-member contact">
+                    <div class="member-name">Obaid</div>
+                    <div class="member-role">M.Sc. (Data Science)</div>
+                    <div class="member-contact">
+                        <i class="fas fa-phone"></i> 9701296465
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SPOC -->
+        <div class="team-category">
+            <h3 class="team-category-title">SPOC</h3>
+            
+            <div class="team-grid single-column">
+                <div class="team-member highlight contact">
+                    <div class="member-name">G. Mani Saketh</div>
+                    <div class="member-role">M.Sc. (Data Science)</div>
+                    <div class="member-contact">
+                        <i class="fas fa-phone"></i> 9381305134
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Team Section Styling */
+.team-section {
+    padding: 80px 0;
+    position: relative;
+    background: linear-gradient(135deg, rgba(5, 5, 30, 0.7), rgba(30, 0, 50, 0.7));
+    border-radius: 20px;
+    margin: 60px 0;
+    overflow: hidden;
+}
+
+.team-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(255, 0, 255, 0.05), transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(0, 255, 255, 0.05), transparent 70%);
+    z-index: -1;
+}
+
+.team-category {
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.team-category:last-child {
+    margin-bottom: 0;
+}
+
+.team-category-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+    color: var(--accent-pink);
+    text-align: center;
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.team-category-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.team-grid.single-column {
+    grid-template-columns: minmax(300px, 600px);
+    justify-content: center;
+}
+
+.team-member {
+    background: rgba(6, 6, 50, 0.5);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.team-member::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 0, 255, 0.05) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+.team-member:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border-color: var(--accent-pink);
+}
+
+.team-member:hover::before {
+    opacity: 1;
+}
+
+.team-member.highlight {
+    background: linear-gradient(135deg, rgba(15, 15, 50, 0.7), rgba(50, 0, 80, 0.7));
+    border: 1px solid rgba(255, 0, 255, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.team-member.highlight:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(255, 0, 255, 0.2);
+}
+
+.member-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: #ffffff;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+}
+
+.member-name::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-pink), transparent);
+}
+
+.member-role {
+    color: var(--accent-cyan);
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.member-org {
+    color: var(--text-light-blue);
+    font-size: 0.9rem;
+}
+
+.member-contact {
+    margin-top: 10px;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    padding: 5px 10px;
+    background: rgba(255, 0, 255, 0.1);
+    border-radius: 20px;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.team-member:hover .member-contact {
+    background: rgba(255, 0, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.member-contact i {
+    color: var(--accent-pink);
+    margin-right: 5px;
+}
+
+/* Animation for team members */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.team-member {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Stagger animation delay for team members */
+.team-grid .team-member:nth-child(1) { animation-delay: 0.1s; }
+.team-grid .team-member:nth-child(2) { animation-delay: 0.2s; }
+.team-grid .team-member:nth-child(3) { animation-delay: 0.3s; }
+.team-grid .team-member:nth-child(4) { animation-delay: 0.4s; }
+.team-grid .team-member:nth-child(5) { animation-delay: 0.5s; }
+.team-grid .team-member:nth-child(6) { animation-delay: 0.6s; }
+.team-grid .team-member:nth-child(7) { animation-delay: 0.7s; }
+.team-grid .team-member:nth-child(8) { animation-delay: 0.8s; }
+.team-grid .team-member:nth-child(9) { animation-delay: 0.9s; }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .team-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+    
+    .team-category-title {
+        font-size: 1.4rem;
+    }
+    
+    .member-name {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .team-member {
+        padding: 15px;
+    }
+    
+    .team-category-title {
+        font-size: 1.3rem;
+    }
+}
+</style>
+
+<script>
+// Animation for team members on scroll
+const animateTeamMembers = () => {
+    const teamMembers = document.querySelectorAll('.team-member');
+    
+    teamMembers.forEach(member => {
+        const memberTop = member.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (memberTop < windowHeight - 50) {
+            member.style.opacity = '1';
+        }
+    });
+};
+
+// Initialize animation on scroll
+window.addEventListener('scroll', animateTeamMembers);
+window.addEventListener('load', animateTeamMembers);
+</script>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <div class="footer-info">
+                <p>© 2025 Department of Data Science & Artificial Intelligence | Siddhartha College</p>
+                <p class="organizer">Organized by ISA - InnodayVoyagers Student Association</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Sticky Header
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Event Title Animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.event-title').classList.add('animate');
+            }, 500);
+        });
+        
+        // Reveal Elements on Scroll
+        const revealOnScroll = () => {
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            featureCards.forEach((card, index) => {
+                const cardTop = card.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (cardTop < windowHeight - 100) {
+                    setTimeout(() => {
+                        card.classList.add('reveal');
+                    }, index * 150); // Staggered animation
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+        
+        // Create Floating Particles
+        const createParticles = () => {
+            const particlesContainer = document.getElementById('particles');
+            const particlesCount = 50;
+            
+            for (let i = 0; i < particlesCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random position
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                
+                // Random size
+                const size = Math.random() * 4 + 1;
+                
+                // Random animation duration
+                const duration = Math.random() * 3 + 2;
+                
+                // Random animation delay
+                const delay = Math.random() * 5;
+                
+                // Apply styles
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        };
+        
+        createParticles();
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const headerOffset = 80;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add hover effects for contribution card
+        const contributionCard = document.querySelector('.contribution-card');
+        contributionCard.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.05)';
+            this.style.boxShadow = '0 15px 30px rgba(255, 0, 255, 0.3)';
+            this.style.borderColor = 'var(--accent-pink)';
+            this.querySelector('.amount').style.textShadow = '0 0 15px var(--accent-cyan)';
+        });
+        
+        contributionCard.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+            this.style.boxShadow = '';
+            this.style.borderColor = '';
+            this.querySelector('.amount').style.textShadow = '';
+        });
+    </script>
+</body>
+</html>
